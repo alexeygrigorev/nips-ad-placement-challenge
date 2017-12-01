@@ -1,6 +1,6 @@
 # Ad Placement Challenge
 
-The winning solution to the Ad Placement Challenge by Criteo for the 
+The winning solution to the [Ad Placement Challenge](https://www.crowdai.org/challenges/nips-17-workshop-criteo-ad-placement-challenge) by Criteo for the 
 [NIPS'17 Causal Inference and Machine Learning Workshop](https://sites.google.com/view/causalnips2017)
 
 The solution is simple:
