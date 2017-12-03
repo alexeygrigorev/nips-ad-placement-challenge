@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import gzip
-from tqdm importtqdm
+from tqdm import tqdm
 
 train_input = gzip.open('data/criteo_train.txt.gz', 'r')
 

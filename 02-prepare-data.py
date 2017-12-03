@@ -26,7 +26,7 @@ for line in tqdm(it_train):
 df_train = pd.DataFrame(df_train)
 
 
-it_val = read_train('data/train_3.txt')
+it_val = u.read_data('data/train_3.txt', skip_unlabelel=True)
 
 df_val = []
 
