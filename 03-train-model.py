@@ -26,23 +26,16 @@ X_val = sp.load_npz('tmp/X_val_sparse.npz')
 y_train = np.load('tmp/y_train.npy', ).astype(np.float32)
 y_val = np.load('tmp/y_val.npy', ).astype(np.float32)
 
-
-
-model = ftrl.FtrlProximal(alpha=0.1, beta=1, l1=75, l2=25)
-
-
-for i in tqdm(range(30)):
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_val)
-    auc = roc_auc_score(y_val, y_pred)
-    print(i + 1, auc)
-
-
 X = sp.vstack([X_train, X_val])
 y = np.concatenate([y_train, y_val])
 
-model_full = ftrl.FtrlProximal(alpha=0.1, beta=1, l1=75, l2=25)
-model_full.fit(X, y, num_passes=22)
+models = []
+
+for i in range(10):
+    print('training model #%i' % i)
+    model = ftrl.FtrlProximal(alpha=0.1, beta=1, l1=75, l2=25)
+    model.fit(X, y, num_passes=22)
+    models.append(model)
 
 
 # Apply the model
@@ -69,10 +62,14 @@ for gid, group in tqdm(it_test, total=7087738):
         vals.append(line.val)
 
     X_val = u.to_csr(cols, vals)
+    
+    preds = []
+    for model in models:
+        pred = model.predict(X_val)
+        pred = shifted_scaled_sigmoid(pred, shift, scale)
+        preds.append(pred)
 
-    pred = model_full.predict(X_val)
-    pred = shifted_scaled_sigmoid(pred, shift, scale)
-
+    pred = np.mean(preds, axis=0)
     m = pred.argmax()
     pred[m] = pred[m] + 15
 
