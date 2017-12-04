@@ -29,54 +29,9 @@ y_val = np.load('tmp/y_val.npy', ).astype(np.float32)
 X = sp.vstack([X_train, X_val])
 y = np.concatenate([y_train, y_val])
 
-models = []
 
-for i in range(10):
-    print('training model #%i' % i)
+for i in tqdm(range(10)):
     model = ftrl.FtrlProximal(alpha=0.1, beta=1, l1=75, l2=25)
     model.fit(X, y, num_passes=22)
-    models.append(model)
+    model.save_model('tmp/model_%i.bin' % i)
 
-
-# Apply the model
-
-shift = 1.1875
-scale = 850100
-
-def shifted_scaled_sigmoid(x, shift=0, scale=1):
-    s = 1 / (1 + np.exp(-x + shift))
-    return (s * scale).round(2)
-
-
-it_test = u.read_grouped('data/criteo_test_release.txt.gz')
-
-
-f_out = open('pred_ftrl.txt', 'w')
-
-for gid, group in tqdm(it_test, total=7087738):
-    cols = []
-    vals = []
-
-    for line in group:
-        cols.append(line.idx)
-        vals.append(line.val)
-
-    X_val = u.to_csr(cols, vals)
-    
-    preds = []
-    for model in models:
-        pred = model.predict(X_val)
-        pred = shifted_scaled_sigmoid(pred, shift, scale)
-        preds.append(pred)
-
-    pred = np.mean(preds, axis=0)
-    m = pred.argmax()
-    pred[m] = pred[m] + 15
-
-    pred_str = u.to_prediction_str(gid, pred)
-    
-    f_out.write(pred_str)
-    f_out.write('\n')
-
-f_out.flush()
-f_out.close()
