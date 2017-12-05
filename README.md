@@ -9,3 +9,20 @@ The solution is simple:
 * Post-process the predictions:
   * Apply the sigmoid fuction to the predictions and scale the result by some constant value
   * For each group add +15 to the max value
+
+Environment:
+
+* ubuntu 14.04
+* 8 cores, 32 gb of ram
+* anaconda with python 3.5.2
+* additional packages not from anaconda: `tqdm` and `ftrl`
+
+Running the solution
+
+* `mkdir tmp`
+* `python 01-cv-split.py` # takes ~22 mins
+* `python 02-prepare-data.py` # ~17 mins
+* `python 03-train-model.py` # ~25 mins
+* `python 04-predict.py` # ~4.5 hours
+* `gzip pred_ftrl.txt`
+* submit `pred_ftrl.txt.gz`s (~1.5 hours)
