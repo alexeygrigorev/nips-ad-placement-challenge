@@ -10,6 +10,11 @@ The solution is simple:
   * Apply the sigmoid fuction to the predictions and scale the result by some constant value
   * For each group add +15 to the max value
 
+Report:
+
+* The video: https://www.youtube.com/watch?v=d5I0baV51vk
+* The report: https://arxiv.org/abs/1712.01913 (also in `report/`)
+
 Environment:
 
 * ubuntu 14.04
@@ -26,3 +31,4 @@ Running the solution
 * `python 04-predict.py` # ~4.5 hours
 * `gzip pred_ftrl.txt`
 * submit `pred_ftrl.txt.gz`s (~1.5 hours)
+
