@@ -31,5 +31,5 @@ Running the solution
 * `python 03-train-model.py` # ~25 mins
 * `python 04-predict.py` # ~4.5 hours
 * `gzip pred_ftrl.txt`
-* submit `pred_ftrl.txt.gz`s (~1.5 hours)
+* submit `pred_ftrl.txt.gz` (~1.5 hours)
 
